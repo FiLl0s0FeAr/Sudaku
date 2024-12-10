@@ -30,10 +30,16 @@ public class GameLogicScript : MonoBehaviour
             {
                 GameObject instance = Instantiate(field, fieldPanel.transform);
                 instance.name = row.ToString() + " " + column.ToString();
-                instance.GetComponentInChildren<Text>().text = row.ToString() + column.ToString();
+
+                instance.GetComponent<Button>().onClick.AddListener( () => OnClickField());
 
                 fields.Add(new Tuple<int, int>(row, column), field);
             }
         }
+    }
+
+    private void OnClickField()
+    {
+        Debug.Log("Clicked");
     }
 }
