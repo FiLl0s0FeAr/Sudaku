@@ -6,6 +6,7 @@ public class FieldPrefabObject
     private int _row;
     private int _column;
     private GameObject _prefab;
+    public bool IsChangeAble = true;
     public FieldPrefabObject(GameObject instance, int row, int column)
     {
         _prefab = instance;

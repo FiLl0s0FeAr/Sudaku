@@ -24,6 +24,7 @@ public class GameLogicScript : MonoBehaviour
     {
         CreateSudokuField();
         CreateControlPanel();
+        CreateSudokuObject();
     }
 
     // Update is called once per frame
@@ -34,9 +35,9 @@ public class GameLogicScript : MonoBehaviour
 
     private void CreateSudokuField()
     {
-        for (int row = 1; row <= 9; row++)
+        for (int row = 0; row < 9; row++)
         {
-            for (int column = 1; column <= 9; column++)
+            for (int column = 0; column < 9; column++)
             {
                 GameObject instance = Instantiate(field, fieldPanel.transform);
 
@@ -64,14 +65,36 @@ public class GameLogicScript : MonoBehaviour
         }
     }
 
+    private void CreateSudokuObject()
+    {
+        SudokuObject sudokuObject = SudokuGenerator.CreateSudokuObject();
+
+        for (int row = 0; row < 9; row++)
+        {
+            for (int column = 0; column < 9; column++)
+            {
+                var currentValue = sudokuObject.Values[row, column];
+                if (currentValue != 0)
+                {
+                    FieldPrefabObject fieldObject = _fields[new Tuple<int, int>(row, column)];
+
+                }
+            }
+        }
+    }
+
     private void OnClickField(FieldPrefabObject fieldPrefabObject)
     {
-        _currentFieldPrefabObject?.UnsetHover();
+        if (fieldPrefabObject.IsChangeAble)
+        {
+            _currentFieldPrefabObject?.UnsetHover();
+            _currentFieldPrefabObject.IsChangeAble = false;
 
-        _currentFieldPrefabObject = fieldPrefabObject;
+            _currentFieldPrefabObject = fieldPrefabObject;
 
-        fieldPrefabObject.SetHover();
-        Debug.Log("Clicked on Field");
+            fieldPrefabObject.SetHover();
+            Debug.Log("Clicked on Field");
+        }
     }
 
     private void OnClickControlField(ControlFieldPrefabObject controlFieldPrefabObject)
