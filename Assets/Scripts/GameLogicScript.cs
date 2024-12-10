@@ -77,6 +77,8 @@ public class GameLogicScript : MonoBehaviour
                 if (currentValue != 0)
                 {
                     FieldPrefabObject fieldObject = _fields[new Tuple<int, int>(row, column)];
+                    fieldObject.SetNumber(currentValue);
+                    fieldObject.IsChangeAble = false;
 
                 }
             }
@@ -88,7 +90,6 @@ public class GameLogicScript : MonoBehaviour
         if (fieldPrefabObject.IsChangeAble)
         {
             _currentFieldPrefabObject?.UnsetHover();
-            _currentFieldPrefabObject.IsChangeAble = false;
 
             _currentFieldPrefabObject = fieldPrefabObject;
 
