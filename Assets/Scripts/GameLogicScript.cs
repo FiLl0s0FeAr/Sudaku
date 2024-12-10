@@ -14,6 +14,7 @@ public class GameLogicScript : MonoBehaviour
     public GameObject informationButton;
 
     private FieldPrefabObject _currentFieldPrefabObject;
+    private SudokuObject _currentSudokuObject;
 
     private bool isActiveInformationButton = false;
 
@@ -67,13 +68,13 @@ public class GameLogicScript : MonoBehaviour
 
     private void CreateSudokuObject()
     {
-        SudokuObject sudokuObject = SudokuGenerator.CreateSudokuObject();
+        _currentSudokuObject = SudokuGenerator.CreateSudokuObject();
 
         for (int row = 0; row < 9; row++)
         {
             for (int column = 0; column < 9; column++)
             {
-                var currentValue = sudokuObject.Values[row, column];
+                var currentValue = _currentSudokuObject.Values[row, column];
                 if (currentValue != 0)
                 {
                     FieldPrefabObject fieldObject = _fields[new Tuple<int, int>(row, column)];
@@ -100,15 +101,26 @@ public class GameLogicScript : MonoBehaviour
 
     private void OnClickControlField(ControlFieldPrefabObject controlFieldPrefabObject)
     {
-        if (isActiveInformationButton)
+        if (_currentFieldPrefabObject != null)
         {
-            _currentFieldPrefabObject?.SetSmallNumber(controlFieldPrefabObject.Number);
+            if (isActiveInformationButton)
+            {
+                _currentFieldPrefabObject.SetSmallNumber(controlFieldPrefabObject.Number);
+            }
+            else if (!isActiveInformationButton)
+            {
+                int currentNumber = controlFieldPrefabObject.Number;
+                int row = _currentFieldPrefabObject.Row;
+                int column = _currentFieldPrefabObject.Column;
+
+                if (_currentSudokuObject.IsPossibleNumberInPosition(currentNumber, row, column))
+                {
+                    _currentFieldPrefabObject.SetNumber(currentNumber);
+                }
+            }
+            Debug.Log("Clicked on Control Field");
         }
-        else if (!isActiveInformationButton)
-        {
-            _currentFieldPrefabObject?.SetNumber(controlFieldPrefabObject.Number);
-        }
-        Debug.Log("Clicked on Control Field");
+
     }
 
     public void OnClickInformationButton()

@@ -49,4 +49,79 @@ public class SudokuObject
                 break;
         }
     }
+
+    public bool IsPossibleNumberInPosition(int number, int row, int column)
+    {
+        if (IsPossibleNumberInRow(number, row) && IsPossibleNumberIncolumn(number, column))
+        {
+            if (IsPossibleNumberInGroup(number, GetGroup(row, column)))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private int GetGroup(int row, int column)
+    {
+        if (row < 3)
+        { 
+            if (column < 3) { return 1; }
+            else if (column < 6) { return 2; }
+            else { return 3; }
+        }
+        else if (row < 6)
+        {
+            if (column < 3) { return 4; }
+            else if (column < 6) { return 52; }
+            else { return 6; }
+        }
+        else
+        {
+            if (column < 3) { return 7; }
+            else if (column < 6) { return 8; }
+            else { return 9; }
+        }
+    }
+
+    private bool IsPossibleNumberInRow(int number, int row)
+    {
+        for (int i = 0; i < 9; i++)
+        {
+            if (Values[row, i] == number)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    private bool IsPossibleNumberIncolumn(int number, int column)
+    {
+        for (int i = 0; i < 9; i++)
+        {
+            if (Values[i, column] == number)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private bool IsPossibleNumberInGroup(int number, int group)
+    {
+        GetGroupIndex(group, out int startRow, out int startColumn);
+
+        for (int row = startRow; row < startRow + 3; row++)
+        {
+            for (int column = startColumn; column < startColumn + 3; column++)
+            {
+                if (Values[row, column] == number)
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
 }
