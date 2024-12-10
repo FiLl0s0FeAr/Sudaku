@@ -76,7 +76,14 @@ public class GameLogicScript : MonoBehaviour
 
     private void OnClickControlField(ControlFieldPrefabObject controlFieldPrefabObject)
     {
-        _currentFieldPrefabObject?.SetNumber(controlFieldPrefabObject.Number);
+        if (isActiveInformationButton)
+        {
+            _currentFieldPrefabObject?.SetSmallNumber(controlFieldPrefabObject.Number);
+        }
+        else if (!isActiveInformationButton)
+        {
+            _currentFieldPrefabObject?.SetNumber(controlFieldPrefabObject.Number);
+        }
         Debug.Log("Clicked on Control Field");
     }
 
