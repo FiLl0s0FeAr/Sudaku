@@ -684,6 +684,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fieldPanel: {fileID: 913780634}
   field: {fileID: 8509311212161312846, guid: 94d69408fc9771b409c703d74cfd0381, type: 3}
+  controlPanel: {fileID: 1742915142}
+  controlField: {fileID: 8509311212161312846, guid: e37e2da3a8a55ad4aa74cf1a4431c41e, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

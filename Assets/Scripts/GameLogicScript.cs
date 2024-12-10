@@ -11,7 +11,11 @@ public class GameLogicScript : MonoBehaviour
     public GameObject controlPanel;
     public GameObject controlField;
 
+    public GameObject informationButton;
+
     private FieldPrefabObject _currentFieldPrefabObject;
+
+    private bool isActiveInformationButton = false;
 
     private Dictionary<Tuple<int, int>, FieldPrefabObject> _fields = new(); // store the row, column for each field and the field
 
@@ -52,7 +56,7 @@ public class GameLogicScript : MonoBehaviour
             GameObject instance = Instantiate(controlField, controlPanel.transform);
             instance.GetComponentInChildren<Text>().text = i.ToString();
 
-            ControlFieldPrefabObject controlPrefabObject = new ControlFieldPrefabObject();
+            ControlFieldPrefabObject controlPrefabObject = new();
 
             controlPrefabObject.Number = i;
 
@@ -74,5 +78,19 @@ public class GameLogicScript : MonoBehaviour
     {
         _currentFieldPrefabObject?.SetNumber(controlFieldPrefabObject.Number);
         Debug.Log("Clicked on Control Field");
+    }
+
+    public void OnClickInformationButton()
+    {
+        if (!isActiveInformationButton)
+        {
+            isActiveInformationButton = true;
+            informationButton.GetComponent<Image>().color = new Color(0.53f, 0.91f, 1f);
+        }
+        else if (isActiveInformationButton)
+        {
+            isActiveInformationButton = false;
+            informationButton.GetComponent<Image>().color = new Color(1f, 1f, 1f);
+        }
     }
 }
