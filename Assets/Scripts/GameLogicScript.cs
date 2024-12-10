@@ -13,7 +13,7 @@ public class GameLogicScript : MonoBehaviour
 
     private FieldPrefabObject _currentFieldPrefabObject;
 
-    private Dictionary<Tuple<int, int>, FieldPrefabObject> _fields = new Dictionary<Tuple<int, int>, FieldPrefabObject>(); // store the row, column for each field and the field
+    private Dictionary<Tuple<int, int>, FieldPrefabObject> _fields = new(); // store the row, column for each field and the field
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -40,7 +40,6 @@ public class GameLogicScript : MonoBehaviour
                 _fields.Add(new Tuple<int, int>(row, column), fieldPrefabObject);
 
                 instance.GetComponent<Button>().onClick.AddListener(() => OnClickField(fieldPrefabObject));
-
             }
         }
     }
@@ -58,16 +57,12 @@ public class GameLogicScript : MonoBehaviour
             controlPrefabObject.Number = i;
 
             instance.GetComponent<Button>().onClick.AddListener(() => OnClickControlField(controlPrefabObject));
-
         }
     }
 
     private void OnClickField(FieldPrefabObject fieldPrefabObject)
     {
-        if (_currentFieldPrefabObject != null)
-        {
-            _currentFieldPrefabObject.UnsetHover();
-        }
+        _currentFieldPrefabObject?.UnsetHover();
 
         _currentFieldPrefabObject = fieldPrefabObject;
 
@@ -77,10 +72,7 @@ public class GameLogicScript : MonoBehaviour
 
     private void OnClickControlField(ControlFieldPrefabObject controlFieldPrefabObject)
     {
-        if (_currentFieldPrefabObject != null)
-        {
-            _currentFieldPrefabObject.SetNumber(controlFieldPrefabObject.Number);
-        }
+        _currentFieldPrefabObject?.SetNumber(controlFieldPrefabObject.Number);
         Debug.Log("Clicked on Control Field");
     }
 }
