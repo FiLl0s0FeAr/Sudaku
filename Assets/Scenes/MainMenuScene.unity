@@ -234,7 +234,7 @@ GameObject:
   - component: {fileID: 248302701}
   - component: {fileID: 248302700}
   m_Layer: 5
-  m_Name: NewGameButton
+  m_Name: EasyButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -306,7 +306,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2078079097}
         m_TargetAssemblyTypeName: MainMenuSceneManagerScript, Assembly-CSharp
-        m_MethodName: NewGame
+        m_MethodName: OnClickEasyButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -367,7 +367,7 @@ GameObject:
   - component: {fileID: 279768220}
   - component: {fileID: 279768219}
   m_Layer: 5
-  m_Name: DifficultyButton
+  m_Name: MiddleButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -436,7 +436,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 279768220}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2078079097}
+        m_TargetAssemblyTypeName: MainMenuSceneManagerScript, Assembly-CSharp
+        m_MethodName: OnClickMiddleButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &279768220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -487,7 +499,7 @@ GameObject:
   - component: {fileID: 372363610}
   - component: {fileID: 372363609}
   m_Layer: 5
-  m_Name: DifficultyText
+  m_Name: MiddleText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -545,7 +557,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Difficulty
+  m_Text: Middle
 --- !u!222 &372363610
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -787,7 +799,7 @@ GameObject:
   - component: {fileID: 684589376}
   - component: {fileID: 684589375}
   m_Layer: 5
-  m_Name: QuitText
+  m_Name: HardText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -845,7 +857,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Quit
+  m_Text: Hard
 --- !u!222 &684589376
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -867,7 +879,7 @@ GameObject:
   - component: {fileID: 694025355}
   - component: {fileID: 694025354}
   m_Layer: 5
-  m_Name: QuitButton
+  m_Name: HardButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -939,7 +951,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2078079097}
         m_TargetAssemblyTypeName: MainMenuSceneManagerScript, Assembly-CSharp
-        m_MethodName: Quit
+        m_MethodName: OnClickHardButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -999,7 +1011,7 @@ GameObject:
   - component: {fileID: 1211355227}
   - component: {fileID: 1211355226}
   m_Layer: 5
-  m_Name: NewGameText
+  m_Name: EasyText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1057,7 +1069,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Game
+  m_Text: Easy
 --- !u!222 &1211355227
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1158,6 +1170,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef9a72a0f28b4b3408d3f153e6a04976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EasyButton: {fileID: 0}
+  MiddleButton: {fileID: 0}
+  HardButton: {fileID: 0}
 --- !u!1 &2137975086
 GameObject:
   m_ObjectHideFlags: 0

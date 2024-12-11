@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameLogicScript : MonoBehaviour
@@ -16,6 +17,8 @@ public class GameLogicScript : MonoBehaviour
     private FieldPrefabObject _currentFieldPrefabObject;
     private SudokuObject _currentSudokuObject;
 
+    public Button backButton;
+
     private bool isActiveInformationButton = false;
 
     private Dictionary<Tuple<int, int>, FieldPrefabObject> _fields = new(); // store the row, column for each field and the field
@@ -26,12 +29,6 @@ public class GameLogicScript : MonoBehaviour
         CreateSudokuField();
         CreateControlPanel();
         CreateSudokuObject();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void CreateSudokuField()
@@ -135,5 +132,10 @@ public class GameLogicScript : MonoBehaviour
             isActiveInformationButton = false;
             informationButton.GetComponent<Image>().color = new Color(1f, 1f, 1f);
         }
+    }
+
+    public void OnClickBackButton()
+    {
+        SceneManager.LoadScene("MainMenuScene");
     }
 }
