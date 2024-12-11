@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 using static UnityEngine.Rendering.DebugUI.Table;
 
 public class SudokuGenerator
@@ -18,13 +19,68 @@ public class SudokuGenerator
         {
             throw new System.Exception("Something went wrong");
         }
-        return sudokuObject;
+        return RemoveSomeRandomNumbers(sudokuObject);
     }
 
-    private static bool TryToSolve(SudokuObject sudokuObject)
+    private static SudokuObject RemoveSomeRandomNumbers(SudokuObject sudokuObject)
+    {
+        SudokuObject newSudokuObject = new SudokuObject();
+        newSudokuObject.Values = (int[,]) sudokuObject.Values.Clone();
+        List<int> values = GetValues();
+
+        bool isFinish = false;
+
+        while(!isFinish)
+        {
+            int index = Random.Range(0, values.Count);
+            int searchedIndex = values[index];
+
+            for (int i = 1; i < 10; i++)
+            {
+                for (int j = 1; j < 10; j++)
+                {
+                    if (i * j == searchedIndex)
+                    {
+                        values.RemoveAt(index);
+                        SudokuObject nextSudokuObject = new SudokuObject();
+                        nextSudokuObject.Values = (int[,]) newSudokuObject.Values.Clone();
+                        nextSudokuObject.Values[i - 1, j - 1] = 0;
+                        if (TryToSolve(nextSudokuObject, true))
+                        {
+                            newSudokuObject = nextSudokuObject;
+                        }
+                    }
+                }
+            }
+
+            if (values.Count < 30)
+            {
+                isFinish = true;
+            }
+        }
+
+        return newSudokuObject;
+    }
+
+    private static List<int> GetValues()
+    {
+        List<int> values = new List<int>();
+
+        for (int i = 1; i < 10; i++)
+        {
+            for (int j = 1; j < 10; j++)
+            {
+                values.Add(i * j);
+            }
+        }
+
+        return values;
+    }
+
+    private static bool TryToSolve(SudokuObject sudokuObject, bool onlyOne = false)
     {
         //Find empty fields which can be filled
-        if (HasEmptyFeldsToFill(sudokuObject, out int row, out int column))
+        if (HasEmptyFeldsToFill(sudokuObject, out int row, out int column, onlyOne))
         {
             List<int> possibleValues = GetPossibleValues(sudokuObject, row, column);
 
@@ -33,7 +89,7 @@ public class SudokuGenerator
                 SudokuObject nextSudokuObject = new SudokuObject();
                 nextSudokuObject.Values = (int[,]) sudokuObject.Values.Clone();
                 nextSudokuObject.Values[row, column] = possibleValue;
-                if (TryToSolve(nextSudokuObject))
+                if (TryToSolve(nextSudokuObject, onlyOne))
                 {
                     return true;
                 }
@@ -83,7 +139,7 @@ public class SudokuGenerator
         return possibleValues;
     }
 
-    private static bool HasEmptyFeldsToFill(SudokuObject sudokuObject, out int row, out int column)
+    private static bool HasEmptyFeldsToFill(SudokuObject sudokuObject, out int row, out int column, bool onlyOne = false)
     {
         row = 0;
         column = 0;
@@ -108,6 +164,18 @@ public class SudokuGenerator
                     }
                 }
             }
+        }
+
+        if (onlyOne)
+        {
+            if (amountOfPossibleValies == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }    
         }
 
         if (amountOfPossibleValies == 10)
