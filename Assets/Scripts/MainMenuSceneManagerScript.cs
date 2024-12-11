@@ -4,24 +4,26 @@ using UnityEngine.UI;
 
 public class MainMenuSceneManagerScript : MonoBehaviour
 {
-    public Button EasyButton;
-    public Button MiddleButton;
-    public Button HardButton;
-    public void OnClickEasyButton()
+    public Text difficultyText;
+
+    private void Update()
     {
-        GameSettings.EasyMiddleHard_Number = 1;
+        if (GameSettings.EasyMiddleHard_Number == 1) { difficultyText.text = "Easy"; }
+        else if (GameSettings.EasyMiddleHard_Number == 2) { difficultyText.text = "Middle";}
+        else if (GameSettings.EasyMiddleHard_Number == 3) { difficultyText.text = "Hard"; }
+    }
+    public void OnClickNewGameButton()
+    {
         SceneManager.LoadScene("GameScene");
     }
 
-    public void OnClickMiddleButton()
+    public void OnClickDifficultyButton()
     {
-        GameSettings.EasyMiddleHard_Number = 2;
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("DifficultyScene");
     }
 
-    public void OnClickHardButton()
+    public void OnClickQuitButton()
     {
-        GameSettings.EasyMiddleHard_Number = 3;
-        SceneManager.LoadScene("GameScene");
+        Application.Quit();
     }
 }
