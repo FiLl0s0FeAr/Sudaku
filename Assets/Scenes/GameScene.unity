@@ -1618,7 +1618,7 @@ MonoBehaviour:
   controlPanel: {fileID: 1742915142}
   controlField: {fileID: 8509311212161312846, guid: e37e2da3a8a55ad4aa74cf1a4431c41e, type: 3}
   informationButton: {fileID: 1424645845}
-  backButton: {fileID: 0}
+  backButton: {fileID: 740236680}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

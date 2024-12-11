@@ -44,6 +44,8 @@ public class GameLogicScript : MonoBehaviour
                 _fields.Add(new Tuple<int, int>(row, column), fieldPrefabObject);
 
                 instance.GetComponent<Button>().onClick.AddListener(() => OnClickField(fieldPrefabObject));
+
+                //Debug.Log("Sudoku Field created");
             }
         }
     }
@@ -61,6 +63,8 @@ public class GameLogicScript : MonoBehaviour
             controlPrefabObject.Number = i;
 
             instance.GetComponent<Button>().onClick.AddListener(() => OnClickControlField(controlPrefabObject));
+
+            //Debug.Log("Control Panel created");
         }
     }
 
@@ -84,6 +88,8 @@ public class GameLogicScript : MonoBehaviour
                 }
             }
         }
+
+        //Debug.Log("Sudoku Object created");
     }
 
     private void OnClickField(FieldPrefabObject fieldPrefabObject)
