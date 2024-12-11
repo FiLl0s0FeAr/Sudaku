@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using static UnityEngine.Rendering.DebugUI;
 using static UnityEngine.Rendering.DebugUI.Table;
 
 public class SudokuGenerator
 {
     private static SudokuObject _finalSudokuObject;
-    public static SudokuObject CreateSudokuObject()
+    public static void CreateSudokuObject(out SudokuObject finalObject, out SudokuObject gameObject)
     {
         _finalSudokuObject = null;
         SudokuObject sudokuObject = new SudokuObject();
@@ -19,41 +20,38 @@ public class SudokuGenerator
         {
             throw new System.Exception("Something went wrong");
         }
-        return RemoveSomeRandomNumbers(sudokuObject);
+        finalObject = sudokuObject;
+        gameObject = RemoveSomeRandomNumbers(sudokuObject);
     }
 
     private static SudokuObject RemoveSomeRandomNumbers(SudokuObject sudokuObject)
     {
         SudokuObject newSudokuObject = new SudokuObject();
         newSudokuObject.Values = (int[,]) sudokuObject.Values.Clone();
-        List<int> values = GetValues();
+        List<Tuple<int, int>> values = GetValues();
 
+        int endValueIndex = 10;
+        if (GameSettings.EasyMiddleHard_Number == 1) { endValueIndex = 71; }
+        if (GameSettings.EasyMiddleHard_Number == 2) { endValueIndex = 61; }
         bool isFinish = false;
 
         while(!isFinish)
         {
-            int index = Random.Range(0, values.Count);
-            int searchedIndex = values[index];
+            int index = UnityEngine.Random.Range(0, values.Count);
+            var searchedIndex = values[index];
 
-            for (int i = 1; i < 10; i++)
+            SudokuObject nextSudokuObject = new SudokuObject();
+            nextSudokuObject.Values = (int[,]) newSudokuObject.Values.Clone();
+            nextSudokuObject.Values[searchedIndex.Item1, searchedIndex.Item2] = 0;
+
+            if (TryToSolve(nextSudokuObject, true))
             {
-                for (int j = 1; j < 10; j++)
-                {
-                    if (i * j == searchedIndex)
-                    {
-                        values.RemoveAt(index);
-                        SudokuObject nextSudokuObject = new SudokuObject();
-                        nextSudokuObject.Values = (int[,]) newSudokuObject.Values.Clone();
-                        nextSudokuObject.Values[i - 1, j - 1] = 0;
-                        if (TryToSolve(nextSudokuObject, true))
-                        {
-                            newSudokuObject = nextSudokuObject;
-                        }
-                    }
-                }
+                newSudokuObject = nextSudokuObject;
             }
 
-            if (values.Count < 30)
+            values.RemoveAt(index);
+
+            if (values.Count < endValueIndex)
             {
                 isFinish = true;
             }
@@ -62,15 +60,15 @@ public class SudokuGenerator
         return newSudokuObject;
     }
 
-    private static List<int> GetValues()
+    private static List<Tuple<int, int>> GetValues()
     {
-        List<int> values = new List<int>();
+        List<Tuple<int, int>> values = new List<Tuple<int, int>>();
 
-        for (int i = 1; i < 10; i++)
+        for (int i = 0; i < 9; i++)
         {
-            for (int j = 1; j < 10; j++)
+            for (int j = 0; j < 9; j++)
             {
-                values.Add(i * j);
+                values.Add(new Tuple<int, int>(i, j));
             }
         }
 
@@ -205,15 +203,15 @@ public class SudokuGenerator
     {
         List<int> values = new List<int>() { 0, 1, 2 };
 
-        int index = Random.Range(0, values.Count);
+        int index = UnityEngine.Random.Range(0, values.Count);
         InsertRandomGroup(SudokuObject, 1 + values[index]);
         values.RemoveAt(index);
 
-        index = Random.Range(0, values.Count);
+        index = UnityEngine.Random.Range(0, values.Count);
         InsertRandomGroup(SudokuObject, 4 + values[index]);
         values.RemoveAt(index);
 
-        index = Random.Range(0, values.Count);
+        index = UnityEngine.Random.Range(0, values.Count);
         InsertRandomGroup(SudokuObject, 7 + values[index]);
     }
 
@@ -226,7 +224,7 @@ public class SudokuGenerator
         {
             for (int column = startColumn; column < startColumn + 3; column++)
             {
-                int index = Random.Range(0, values.Count);
+                int index = UnityEngine.Random.Range(0, values.Count);
                 SudokuObject.Values[row, column] = values[index];
                 values.RemoveAt(index);
             }

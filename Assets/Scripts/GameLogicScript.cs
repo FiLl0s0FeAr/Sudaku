@@ -15,7 +15,8 @@ public class GameLogicScript : MonoBehaviour
     public GameObject informationButton;
 
     private FieldPrefabObject _currentFieldPrefabObject;
-    private SudokuObject _currentSudokuObject;
+    private SudokuObject _gameObject;
+    private SudokuObject _finalObject;
 
     public Button backButton;
 
@@ -65,13 +66,15 @@ public class GameLogicScript : MonoBehaviour
 
     private void CreateSudokuObject()
     {
-        _currentSudokuObject = SudokuGenerator.CreateSudokuObject();
+        SudokuGenerator.CreateSudokuObject(out SudokuObject finalObject, out SudokuObject gameObject);
+        _gameObject = gameObject;
+        _finalObject = finalObject;
 
         for (int row = 0; row < 9; row++)
         {
             for (int column = 0; column < 9; column++)
             {
-                var currentValue = _currentSudokuObject.Values[row, column];
+                var currentValue = _gameObject.Values[row, column];
                 if (currentValue != 0)
                 {
                     FieldPrefabObject fieldObject = _fields[new Tuple<int, int>(row, column)];
@@ -106,14 +109,7 @@ public class GameLogicScript : MonoBehaviour
             }
             else if (!isActiveInformationButton)
             {
-                int currentNumber = controlFieldPrefabObject.Number;
-                int row = _currentFieldPrefabObject.Row;
-                int column = _currentFieldPrefabObject.Column;
-
-                if (_currentSudokuObject.IsPossibleNumberInPosition(currentNumber, row, column))
-                {
-                    _currentFieldPrefabObject.SetNumber(currentNumber);
-                }
+                _currentFieldPrefabObject.SetNumber(controlFieldPrefabObject.Number);
             }
             Debug.Log("Clicked on Control Field");
         }
@@ -137,5 +133,28 @@ public class GameLogicScript : MonoBehaviour
     public void OnClickBackButton()
     {
         SceneManager.LoadScene("MainMenuScene");
+    }
+
+    public void OnClickFinishButton()
+    {
+        for (int row = 0; row < 9; row++)
+        {
+            for (int column = 0; column < 9; column++)
+            {
+                FieldPrefabObject fieldObject = _fields[new Tuple<int, int>(row, column)];
+
+                if (fieldObject.IsChangeAble)
+                {
+                    if (_finalObject.Values[row, column] == fieldObject.Number)
+                    {
+                        fieldObject.ChangeColorToGreen();
+                    }
+                    else
+                    {
+                        fieldObject.ChangeColorToRed();
+                    }
+                }
+            }
+        }
     }
 }

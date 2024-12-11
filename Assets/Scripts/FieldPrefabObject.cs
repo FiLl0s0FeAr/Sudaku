@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ public class FieldPrefabObject
     private int _column;
     private GameObject _prefab;
     public bool IsChangeAble = true;
+    public int Number;
     public FieldPrefabObject(GameObject instance, int row, int column)
     {
         _prefab = instance;
@@ -33,6 +35,16 @@ public class FieldPrefabObject
         return false;
     }
 
+    public void ChangeColorToGreen()
+    {
+        _prefab.GetComponent<Image>().color = Color.green;
+    }
+
+    public void ChangeColorToRed()
+    {
+        _prefab.GetComponent<Image>().color = Color.red;
+    }
+
     public void SetHover()
     {
         _prefab.GetComponent<Image>().color = new Color(0.53f, 0.91f, 1f);
@@ -47,6 +59,7 @@ public class FieldPrefabObject
     {
         if (TryGetTextByName("FieldText", out Text text))
         {
+            Number = number;
             text.text = number.ToString();
             for (int i = 1; i < 10; i++)
             {
